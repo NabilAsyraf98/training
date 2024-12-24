@@ -12,11 +12,11 @@ process sayHello {
         val greeting
 
     output:
-        path 'output.txt'
+        path "$greeting-output.txt"
 
     script:
     """
-    echo '$greeting' > output.txt
+    echo '$greeting' > "$greeting-output.txt"
     """
 }
 
@@ -39,10 +39,12 @@ process sayHello {
  }
 
 workflow {
-    params.greeting="Hello :)"
+    params.input_file ="data/greetings.csv"
 
-    //creating a channel for inputs
-    greeting_ch= Channel.of(params.greeting)
+    //creating a channel for inputs from a csv file
+    greeting_ch= Channel.fromPath(params.input_file)
+                        .splitCsv()
+                        .flatten()
 
     // emit a greeting
     sayHello(greeting_ch)

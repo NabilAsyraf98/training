@@ -11,7 +11,8 @@ params.reference_dict   = "${projectDir}/data/ref/ref.dict"
 params.intervals        = "${projectDir}/data/ref/intervals.bed"
 
 // Primary input
-params.reads_bam = "${projectDir}/data/bam/reads_mother.bam"
+params.reads_bam = "${projectDir}/data/sample_bams.txt"
+
 params.outdir = "results_genomics"
 /*
  * Generate BAM index file
@@ -26,7 +27,7 @@ process SAMTOOLS_INDEX {
         path input_bam
 
     output:
-        path "${input_bam}.bai"
+        tuple path(input_bam), path("${input_bam}.bai")
 
     script:
     """
@@ -41,8 +42,7 @@ process GATK_HAPLOTYPECALLER {
     publishDir params.outdir , mode: 'symlink'
     
     input:
-        path input_bam
-        path input_bam_index
+        tuple path(input_bam), path(input_bam_index)
         path ref_fasta
         path ref_index
         path ref_dict
@@ -65,7 +65,9 @@ process GATK_HAPLOTYPECALLER {
 workflow {
 
     // Create input channel
-    reads_ch = Channel.fromPath(params.reads_bam)
+    reads_ch = Channel.fromPath(params.reads_bam).splitText()
+
+    reads_ch.view()
 
     // Load the file paths for the accessory files (reference and intervals)
     ref_file        = file(params.reference)
@@ -75,5 +77,13 @@ workflow {
 
     // Create index file for input BAM file
     SAMTOOLS_INDEX(reads_ch)
+
+    GATK_HAPLOTYPECALLER( 
+        SAMTOOLS_INDEX.out,
+        ref_file,
+        ref_index_file,
+        ref_dict_file,
+        intervals_file
+    )
 
 }

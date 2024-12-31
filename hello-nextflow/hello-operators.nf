@@ -1,5 +1,5 @@
 #!/usr/bin/env nextflow
-include { GATK_JOINTGENOTYPING } from './solutions/hello-config/final-main.nf'
+
 
 /*
  * Pipeline parameters

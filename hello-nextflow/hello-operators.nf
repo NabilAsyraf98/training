@@ -16,6 +16,9 @@ params.reference_index  = "${projectDir}/data/ref/ref.fasta.fai"
 params.reference_dict   = "${projectDir}/data/ref/ref.dict"
 params.intervals        = "${projectDir}/data/ref/intervals.bed"
 
+//Base name for final output file
+params.cohort_name = "family_trio"
+
 /*
  * Generate BAM index file
  */
@@ -54,16 +57,44 @@ process GATK_HAPLOTYPECALLER {
         path interval_list
 
     output:
-        path "${input_bam}.vcf"     , emit: vcf
-        path "${input_bam}.vcf.idx" , emit: idx
+        path "${input_bam}.g.vcf"     , emit: vcf
+        path "${input_bam}.g.vcf.idx" , emit: idx
 
     script:
     """
     gatk HaplotypeCaller \
         -R ${ref_fasta} \
         -I ${input_bam} \
-        -O ${input_bam}.vcf \
-        -L ${interval_list}
+        -O ${input_bam}.g.vcf \
+        -L ${interval_list} \
+        -ERC GVCF
+    """
+}
+
+/*
+ * Combine GVCFs into GenomicsDB datastore
+ */
+process GATK_GENOMICSDB {
+
+    container "community.wave.seqera.io/library/gatk4:4.5.0.0--730ee8817e436867"
+    publishDir params.outdir, mode: 'copy'
+
+    input:
+        path all_gvcfs
+        path all_idxs
+        path interval_list
+        val cohort_name
+
+    output:
+        path "${cohort_name}_gdb"
+
+    script:
+    def gvcfs_line = all_gvcfs.collect { gvcf -> "-V ${gvcf}" }.join(' ')
+    """
+    gatk GenomicsDBImport \
+        ${gvcfs_line} \
+        -L ${interval_list} \
+        --genomicsdb-workspace-path ${cohort_name}_gdb
     """
 }
 
@@ -89,4 +120,19 @@ workflow {
         ref_dict_file,
         intervals_file
     )
+
+    // Collect variant calling outputs across samples
+    all_gvcfs_ch = GATK_HAPLOTYPECALLER.out.vcf.collect()
+    all_idxs_ch = GATK_HAPLOTYPECALLER.out.idx.collect()
+
+    // Combine GVCFs into a GenomicsDB datastore
+    GATK_GENOMICSDB(
+        all_gvcfs_ch,
+        all_idxs_ch,
+        intervals_file,
+        params.cohort_name
+    )
 }
+
+
+

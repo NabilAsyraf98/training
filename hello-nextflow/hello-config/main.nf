@@ -1,30 +1,12 @@
 #!/usr/bin/env nextflow
 
 /*
- * Pipeline parameters
- */
-
-// Primary input (file of input files, one per line)
-params.reads_bam = "${projectDir}/data/sample_bams.txt"
-
-// Output directory
-params.outdir = "results_genomics"
-
-// Accessory files
-params.reference        = "${projectDir}/data/ref/ref.fasta"
-params.reference_index  = "${projectDir}/data/ref/ref.fasta.fai"
-params.reference_dict   = "${projectDir}/data/ref/ref.dict"
-params.intervals        = "${projectDir}/data/ref/intervals.bed"
-
-// Base name for final output file
-params.cohort_name = "family_trio"
-
-/*
  * Generate BAM index file
  */
 process SAMTOOLS_INDEX {
 
     container 'community.wave.seqera.io/library/samtools:1.20--b5dfbd93de237464'
+    conda "bioconda::samtools=1.20"
 
     publishDir params.outdir, mode: 'symlink'
 
@@ -46,6 +28,7 @@ process SAMTOOLS_INDEX {
 process GATK_HAPLOTYPECALLER {
 
     container "community.wave.seqera.io/library/gatk4:4.5.0.0--730ee8817e436867"
+    conda "bioconda::gatk4=4.5.0.0"
 
     publishDir params.outdir, mode: 'symlink'
 
@@ -77,6 +60,7 @@ process GATK_HAPLOTYPECALLER {
 process GATK_JOINTGENOTYPING {
 
     container "community.wave.seqera.io/library/gatk4:4.5.0.0--730ee8817e436867"
+    conda "bioconda::gatk4=4.5.0.0"
 
     publishDir params.outdir, mode: 'symlink'
 

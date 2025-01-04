@@ -1,0 +1,25 @@
+{
+    "reads_son [bam]": {
+        "content": [
+            {
+                "0": [
+                    "reads_son.bam.g.vcf:md5,fae0949586345746f56b8fc610be158a"
+                ],
+                "1": [
+                    "reads_son.bam.g.vcf.idx:md5,5ccee000b32769cc2d7360eee5e01c22"
+                ],
+                "idx": [
+                    "reads_son.bam.g.vcf.idx:md5,5ccee000b32769cc2d7360eee5e01c22"
+                ],
+                "vcf": [
+                    "reads_son.bam.g.vcf:md5,fae0949586345746f56b8fc610be158a"
+                ]
+            }
+        ],
+        "meta": {
+            "nf-test": "0.9.2",
+            "nextflow": "24.10.0"
+        },
+        "timestamp": "2025-01-04T10:29:48.395644845"
+    }
+}

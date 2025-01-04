@@ -1,0 +1,8 @@
+Jan-04 10:26:36.999 [main] INFO  com.askimed.nf.test.App - nf-test 0.9.2
+Jan-04 10:26:37.070 [main] INFO  com.askimed.nf.test.App - Arguments: [test, --profile, docker_on, modules/local/gatk/haplotypecaller/tests/main.nf.test]
+Jan-04 10:26:38.287 [main] INFO  com.askimed.nf.test.App - Nextflow Version: 24.10.0
+Jan-04 10:26:38.291 [main] WARN  com.askimed.nf.test.commands.RunTestsCommand - No nf-test config file found.
+Jan-04 10:26:38.376 [main] INFO  com.askimed.nf.test.lang.dependencies.DependencyResolver - Loaded 73 files from directory /workspace/gitpod/hello-nextflow in 0.083 sec
+Jan-04 10:26:38.379 [main] INFO  com.askimed.nf.test.lang.dependencies.DependencyResolver - Found 0 files containing tests.
+Jan-04 10:26:38.379 [main] DEBUG com.askimed.nf.test.lang.dependencies.DependencyResolver - Found files: []
+Jan-04 10:26:38.382 [main] INFO  com.askimed.nf.test.commands.RunTestsCommand - Found 0 tests to execute.

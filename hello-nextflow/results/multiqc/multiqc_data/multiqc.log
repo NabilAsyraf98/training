@@ -1,0 +1,9 @@
+[2025-01-06 03:06:44,306] multiqc.config                                     [INFO   ]  Loading config settings from: multiqc_config.yml
+[2025-01-06 03:06:44,907] multiqc.core.version_check                         [WARNING]  MultiQC Version v1.26 now available!
+[2025-01-06 03:06:44,907] multiqc.core.file_search                           [INFO   ]  Search path: /workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab
+[2025-01-06 03:06:44,997] multiqc.modules.custom_content.custom_content      [WARNING]  HTML plot type found with more than one dataset in nf-core-demo-summary
+[2025-01-06 03:06:44,997] multiqc.modules.custom_content.custom_content      [INFO   ]  nf-core-demo-summary: Found 1 sample (html)
+[2025-01-06 03:06:44,997] multiqc.modules.custom_content.custom_content      [WARNING]  HTML plot type found with more than one dataset in nf-core-demo-methods-description
+[2025-01-06 03:06:44,997] multiqc.modules.custom_content.custom_content      [INFO   ]  nf-core-demo-methods-description: Found 1 sample (html)
+[2025-01-06 03:06:45,016] multiqc.modules.fastqc.fastqc                      [INFO   ]  Found 6 reports
+[2025-01-06 03:06:45,160] multiqc.core.write_results                         [INFO   ]  Rendering plots. Export plots to formats png, svg, pdf is requested, so it might take a while. To disable plot export, set `export_plots: false` in config, or remove the `--export-plots` command line flag

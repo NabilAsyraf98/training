@@ -1,0 +1,7 @@
+Module	Section	Sample Name	Source
+FastQC	all_sections	SAMPLE3_SE_1	/workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab/6/SAMPLE3_SE_1_fastqc.zip
+FastQC	all_sections	SAMPLE3_SE_2	/workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab/7/SAMPLE3_SE_2_fastqc.zip
+FastQC	all_sections	SAMPLE1_PE_1	/workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab/8/SAMPLE1_PE_1_fastqc.zip
+FastQC	all_sections	SAMPLE2_PE_2	/workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab/5/SAMPLE2_PE_2_fastqc.zip
+FastQC	all_sections	SAMPLE2_PE_1	/workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab/4/SAMPLE2_PE_1_fastqc.zip
+FastQC	all_sections	SAMPLE1_PE_2	/workspace/gitpod/hello-nextflow/work/0d/89e43cbc14e955cc50fe57735eeeab/9/SAMPLE1_PE_2_fastqc.zip

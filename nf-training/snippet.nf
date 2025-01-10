@@ -1,20 +1,26 @@
 #!/usr/bin/env nextflow
-greeting = "Hello world!"
+
+reads_ch = Channel.fromFilePairs('data/ggal/*_{1,2}.fq')
 
 process FOO {
+    publishDir "results", pattern: "*.bam"
+
     input:
-    val x
+    tuple val(sample_id), path(sample_id_paths)
 
     output:
-    val x
+    tuple val(sample_id), path("*.bam"), emit:bam
+    tuple val(sample_id), path("*.bai"), emit:bai
 
     script:
     """
-    echo $x > file
+    echo your_command_here --sample $sample_id_paths > ${sample_id}.bam
+    echo your_command_here --sample $sample_id_paths > ${sample_id}.bai
     """
 }
 
 workflow {
-    FOO(Channel.of(greeting))
-        .view()
-}
+    result=FOO(reads_ch)
+    result.bai.view()
+    result.bam.view()
+}       

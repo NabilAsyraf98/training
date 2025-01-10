@@ -1,30 +1,20 @@
 #!/usr/bin/env nextflow
+greeting = "Hello world!"
 
-ch1 = Channel.of(1, 2, 3)
-ch2 = Channel.of(1)
-
-list = ['hello', 'world']
-
-Channel
-    .fromFilePairs('./data/ggal/*_{1,2}.fq', flat: false)
-    .view()
-
-
-process SUM {
+process FOO {
     input:
     val x
-    val y
 
     output:
-    stdout
+    val x
 
     script:
     """
-    echo \$(($x+$y))
+    echo $x > file
     """
 }
 
 workflow {
-    SUM(ch1, ch2.first()).view()
+    FOO(Channel.of(greeting))
+        .view()
 }
-

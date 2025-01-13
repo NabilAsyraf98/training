@@ -39,14 +39,14 @@ process QUANTIFICATION {
 
     input:
     path salmon_index
-    tuple val(sample_id), path(reads)
+    tuple val(sample_id), path(reads1), path(reads2)
 
     output:
     path "$sample_id"
 
     script:
     """
-    salmon quant --threads $task.cpus --libType=U -i $salmon_index -1 ${reads[0]} -2 ${reads[1]} -o $sample_id
+    salmon quant --threads $task.cpus --libType=U -i $salmon_index -1 ${reads1} -2 ${reads2} -o $sample_id
     """
 }
 
@@ -54,14 +54,15 @@ process FASTQC {
     tag "FASTQC on $sample_id"
 
     input:
-    tuple val(sample_id), path(reads)
+    tuple val(sample_id), path(reads1), path(reads2)
 
     output:
     path "fastqc_${sample_id}_logs"
 
     script:
     """
-    fastqc.sh "$sample_id" "$reads"
+    mkdir fastqc_${sample_id}_logs
+    fastqc -o fastqc_${sample_id}_logs -f fastq -q ${reads1} ${reads2}
     """
 }
 
@@ -82,7 +83,9 @@ process MULTIQC {
 
 workflow {
     Channel
-        .fromFilePairs(params.reads, checkIfExists: true)
+        .fromPath("fastq.csv")
+        .splitCsv()
+        .view { row -> "${row[0]}, ${row[1]}, ${row[2]}" }
         .set { read_pairs_ch }
 
     index_ch = INDEX(params.transcriptome_file)

@@ -3,31 +3,9 @@
 params.greeting = 'Hello world!'
 greeting_ch = Channel.of(params.greeting)
 
-process SPLITLETTERS {
-    input:
-    val x
+include { SPLITLETTERS   } from './modules.nf'
+include { CONVERTTOUPPER } from './modules.nf'
 
-    output:
-    path 'chunk_*'
-
-    script:
-    """
-    printf '$x' | split -b 6 - chunk_
-    """
-}
-
-process CONVERTTOUPPER {
-    input:
-    path y
-
-    output:
-    stdout
-
-    script:
-    """
-    cat $y | tr '[a-z]' '[A-Z]'
-    """
-}
 
 workflow {
     letters_ch = SPLITLETTERS(greeting_ch)
